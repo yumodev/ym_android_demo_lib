@@ -3,16 +3,19 @@ package com.yumo.demo.view;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.yumo.demo.R;
 import com.yumo.demo.config.Config;
 import com.yumo.demo.entry.YmMethod;
-import com.yumo.demo.listener.RecyclerViewItemClickListener;
+import com.zhy.adapter.recyclerview.CommonAdapter;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
+import com.zhy.adapter.recyclerview.base.ViewHolder;
+import com.zhy.adapter.recyclerview.wrapper.HeaderAndFooterWrapper;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,13 +27,10 @@ import java.util.List;
  */
 
 public class YmTestView extends FrameLayout {
-    private final String LOG_TAG = "MethodRecyclerView";
-
-    private MethodAdapter mAdapter = null;
     private Object mObj = null;
     private Class<?> mCls = null;
     private List<YmMethod> mMethodList = new ArrayList<>();
-    private RecyclerView mRecyclerView = null;
+    private RecyclerView mListView = null;
 
     public YmTestView(Context context) {
         super(context);
@@ -44,29 +44,92 @@ public class YmTestView extends FrameLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public void init(Object obj, Class<?> cls){
+    public void init(Object obj, Class<?> cls, View headerView, View footerView){
         mObj = obj;
         mCls = cls;
-        mRecyclerView = new RecyclerView(getContext());
-        mMethodList = getMethodListData(cls);
-        mAdapter = new MethodAdapter(getContext());
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mAdapter.setItemClickListener(new RecyclerViewItemClickListener() {
+        mMethodList = getMethodListData(cls);
+
+        CommonAdapter<YmMethod> adapter = new CommonAdapter<YmMethod>(getContext(), R.layout.linearlayout_text_item, mMethodList) {
             @Override
-            public void onItemClick(RecyclerView.Adapter adapter, View v, int position) {
+            protected void convert(ViewHolder holder, YmMethod ymMethod, int position) {
+                if (TextUtils.isEmpty(ymMethod.getDisplayName())) {
+                    holder.setText(R.id.content, ymMethod.getMethod().getName());
+                } else {
+                    {
+                        holder.setText(R.id.content, ymMethod.getDisplayName());
+                    }
+                }
+            }
+        };
+
+        adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 try {
-                    mAdapter.getItemData(position).getMethod().invoke(mObj, (Object[]) null);
+                    mMethodList.get(position).getMethod().invoke(mObj, (Object[]) null);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
         });
 
-        addView(mRecyclerView);
+        HeaderAndFooterWrapper headerAndFooterWrapper= new HeaderAndFooterWrapper<>(adapter);
+        if (headerView != null){
+            if (headerView.getLayoutParams() == null){
+                headerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
+            headerAndFooterWrapper.addHeaderView(headerView);
+        }
+
+        if (footerView != null){
+            if (footerView.getLayoutParams() == null){
+                footerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
+            headerAndFooterWrapper.addFootView(footerView);
+        }
+
+        mListView = new RecyclerView(getContext());
+        mListView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mListView.setAdapter(headerAndFooterWrapper);
+        addView(mListView);
+    }
+
+    public void init(Object obj, Class<?> cls){
+        init(obj, cls, null, null);
+    }
+
+    public boolean addHeaderView(View view){
+        if (mListView == null){
+            return false;
+        }
+
+        if (view.getLayoutParams() == null){
+            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+        HeaderAndFooterWrapper adapter = HeaderAndFooterWrapper.class.cast(mListView.getAdapter());
+        adapter.addHeaderView(view);
+        return true;
+    }
+
+    public boolean addFooterView(View view){
+        if (mListView == null){
+            return false;
+        }
+
+        if (view.getLayoutParams() == null){
+            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+        HeaderAndFooterWrapper adapter = HeaderAndFooterWrapper.class.cast(mListView.getAdapter());
+        adapter.addFootView(view);
+        return true;
     }
 
     private List<YmMethod> getMethodListData(Class<?> c){
@@ -82,50 +145,5 @@ public class YmTestView extends FrameLayout {
         }
 
         return list;
-    }
-
-    public class MethodAdapter extends RecyclerView.Adapter<MethodViewHolder> {
-
-        private Context mContext = null;
-        private RecyclerViewItemClickListener mItemClickListener = null;
-        public MethodAdapter(Context context){
-            mContext = context;
-        }
-        @Override
-        public MethodViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new MethodViewHolder(View.inflate(mContext, R.layout.linearlayout_text_item, null));
-        }
-
-        @Override
-        public void onBindViewHolder(final MethodViewHolder holder, int position) {
-            holder.mMethodNameView.setText(getItemData(position).getMethod().getName());
-            holder.itemView.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    mItemClickListener.onItemClick(MethodAdapter.this, v, holder.getAdapterPosition());
-                }
-            });
-        }
-
-        public YmMethod getItemData(int position){
-            return mMethodList.get(position);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mMethodList.size();
-        }
-
-        public void setItemClickListener(RecyclerViewItemClickListener listener){
-            mItemClickListener = listener;
-        }
-    }
-
-    static class MethodViewHolder extends RecyclerView.ViewHolder{
-        public TextView mMethodNameView = null;
-        public MethodViewHolder(View itemView) {
-            super(itemView);
-            mMethodNameView = (TextView)itemView.findViewById(R.id.content);
-        }
     }
 }

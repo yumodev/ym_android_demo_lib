@@ -1,6 +1,5 @@
 package com.yumo.ymtest.web;
 
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -17,9 +16,10 @@ public class WebViewTestFragment extends YmTestFragment {
         WebView wv = new WebView(getContext());
         wv.loadUrl("http://m.baidu.com");
         wv.setWebViewClient(new WebViewClient(){
+
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return super.shouldOverrideUrlLoading(view, request);
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return super.shouldOverrideUrlLoading(view, url);
             }
         });
 

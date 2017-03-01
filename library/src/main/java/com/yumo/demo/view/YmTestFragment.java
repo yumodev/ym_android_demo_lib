@@ -20,6 +20,7 @@ import com.yumo.demo.base.YmDemoBaseFragment;
 
 public class YmTestFragment extends YmDemoBaseFragment {
     protected static final String TEST_TAG = "TestFragment";
+    private YmTestView mTestView = null;
 
     @Override
     protected View getContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,9 +38,31 @@ public class YmTestFragment extends YmDemoBaseFragment {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-        YmTestView testView = new YmTestView(getContext());
-        testView.init(this, getClass());
-        return testView;
+        mTestView = new YmTestView(getContext());
+        mTestView.init(this, getClass(), getHeaderView(), getFooterView());
+        return mTestView;
+    }
+
+    protected View getHeaderView(){
+        return null;
+    }
+
+    protected View getFooterView(){
+        return null;
+    }
+
+    public boolean addHeaderView(View view){
+        if (mTestView == null){
+            return false;
+        }
+       return mTestView.addHeaderView(view);
+    }
+
+    public boolean addFooterView(View view){
+        if (mTestView == null){
+            return false;
+        }
+        return mTestView.addFooterView(view);
     }
 
     public Context getContext() {
