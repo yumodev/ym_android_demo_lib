@@ -50,7 +50,7 @@ public class YmTestView extends FrameLayout {
 
         mMethodList = getMethodListData(cls);
 
-        CommonAdapter<YmMethod> adapter = new CommonAdapter<YmMethod>(getContext(), R.layout.linearlayout_text_item, mMethodList) {
+        final CommonAdapter<YmMethod> adapter = new CommonAdapter<YmMethod>(getContext(), R.layout.linearlayout_text_item, mMethodList) {
             @Override
             protected void convert(ViewHolder holder, YmMethod ymMethod, int position) {
                 if (TextUtils.isEmpty(ymMethod.getDisplayName())) {
@@ -63,11 +63,19 @@ public class YmTestView extends FrameLayout {
             }
         };
 
+        final HeaderAndFooterWrapper headerAndFooterWrapper= new HeaderAndFooterWrapper<>(adapter);
+        if (headerView != null){
+            if (headerView.getLayoutParams() == null){
+                headerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
+            headerAndFooterWrapper.addHeaderView(headerView);
+        }
+
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 try {
-                    mMethodList.get(position).getMethod().invoke(mObj, (Object[]) null);
+                    mMethodList.get(position-headerAndFooterWrapper.getHeadersCount()).getMethod().invoke(mObj, (Object[]) null);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
@@ -80,14 +88,6 @@ public class YmTestView extends FrameLayout {
                 return false;
             }
         });
-
-        HeaderAndFooterWrapper headerAndFooterWrapper= new HeaderAndFooterWrapper<>(adapter);
-        if (headerView != null){
-            if (headerView.getLayoutParams() == null){
-                headerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            }
-            headerAndFooterWrapper.addHeaderView(headerView);
-        }
 
         if (footerView != null){
             if (footerView.getLayoutParams() == null){
