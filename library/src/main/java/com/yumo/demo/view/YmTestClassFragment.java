@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.yumo.demo.R;
 import com.yumo.demo.base.YmDemoBaseFragment;
-import com.yumo.demo.utils.ClassUtils;
+import com.yumo.demo.utils.YmClassUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -95,7 +95,7 @@ public class YmTestClassFragment extends YmDemoBaseFragment {
         superClassList.add(YmTestFragment.class);
         superClassList.add(Activity.class);
 
-        mDataList = ClassUtils.getAllSubClassInPackage(getContext(), superClassList, mPackageName);
+        mDataList = YmClassUtils.getAllSubClassInPackage(getContext(), superClassList, mPackageName);
     }
 
 }

@@ -23,8 +23,8 @@ import dalvik.system.DexFile;
 /**
  * Created by yumodev on 3/18/16.
  */
-public class ClassUtils {
-    private static String LOG_TAG = "ClassUtils";
+public class YmClassUtils {
+    private static String LOG_TAG = "YmClassUtils";
 
     private static final String EXTRACTED_NAME_EXT = ".classes";
     private static final String EXTRACTED_SUFFIX = ".zip";
@@ -126,8 +126,8 @@ public class ClassUtils {
      * void
      * 2014-11-6
      */
-    public static String getFirstSubClassName(Context context, Class<?> superClass){
-        String packageName = context.getPackageName();
+    public static String getConfigPackageData(Context context, Class<?> superClass){
+        String packageName = YmDemoUtil.getAppPackageName(context);
         String apkName = getApkName(context);
         if (TextUtils.isEmpty(apkName)){
             return "";

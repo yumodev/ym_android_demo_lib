@@ -14,7 +14,7 @@ import com.yumo.demo.R;
 import com.yumo.demo.base.YmDemoBaseFragment;
 import com.yumo.demo.entry.YmPackageInfo;
 import com.yumo.demo.listener.IGetPackageData;
-import com.yumo.demo.utils.ClassUtils;
+import com.yumo.demo.utils.YmClassUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -85,7 +85,7 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
      * 2014-11-6
      */
     private void initData(){
-        String subClassName = ClassUtils.getFirstSubClassName(getContext(), IGetPackageData.class);
+        String subClassName = YmClassUtils.getConfigPackageData(getContext(), IGetPackageData.class);
         if (TextUtils.isEmpty(subClassName)){
             return;
         }
