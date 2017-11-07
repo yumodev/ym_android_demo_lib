@@ -21,10 +21,10 @@ public class MainActivity extends BaseActivity{
     }
 
     public void initView(){
-        YmTestView testView = (YmTestView) findViewById(R.id.test_view);
+        YmTestView testView = findViewById(R.id.test_view);
         testView.init(this, getClass());
 
-        mToolbar = (Toolbar)findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.app_name);
     }
 

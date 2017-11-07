@@ -29,9 +29,9 @@ public class TestViewDialog extends BaseDialogFragment {
     @Override
     protected void initView(Dialog dialog){
         super.initView(dialog);
-        mFirstNumEdit = (EditText) dialog.findViewById(R.id.first_num_edit);
-        mSecondNumEdit = (EditText) dialog.findViewById(R.id.second_num_edit);
-        mResultTextView = (TextView) dialog.findViewById(R.id.result_num);
+        mFirstNumEdit = dialog.findViewById(R.id.first_num_edit);
+        mSecondNumEdit = dialog.findViewById(R.id.second_num_edit);
+        mResultTextView = dialog.findViewById(R.id.result_num);
         mTestView.init(this, getClass());
 
         mToolbar.setTitle("TestView");

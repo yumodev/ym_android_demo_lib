@@ -18,7 +18,7 @@ public class TestPackageData implements IGetPackageData {
         list.add(new YmPackageInfo("test", "com.yumo.ymtest.test"));
         list.add(new YmPackageInfo("web", "com.yumo.ymtest.web"));
         list.add(new YmPackageInfo("sys", "com.yumo.ymtest.sys"));
-
+        list.add(new YmPackageInfo("kotlin", "com.yumo.ymtest.kotlin"));
         return list;
     }
 }
