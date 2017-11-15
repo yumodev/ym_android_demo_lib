@@ -22,7 +22,7 @@ public abstract class YmDemoBaseFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.base_fragment, null);
-        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        mToolbar = rootView.findViewById(R.id.toolbar);
 
         View containerView = getContainerView(inflater, container, savedInstanceState);
         if (containerView != null){
@@ -32,4 +32,18 @@ public abstract class YmDemoBaseFragment extends Fragment{
     }
 
     abstract protected View getContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
+
+    /**
+     * 获取标题
+     * @return
+     */
+    public Toolbar getToolbar(){
+        return mToolbar;
+    }
+
+    public void setToolbar(Toolbar toolbar){
+        mToolbar = toolbar;
+    }
+
+
 }

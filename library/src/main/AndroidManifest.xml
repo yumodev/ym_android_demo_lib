@@ -7,7 +7,7 @@
         android:supportsRtl="true">
 
         <activity
-            android:name="com.yumo.demo.view.YmTestActivity"
+            android:name=".view.YmTestActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">

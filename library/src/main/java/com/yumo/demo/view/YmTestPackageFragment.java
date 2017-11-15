@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.yumo.demo.R;
 import com.yumo.demo.base.YmDemoBaseFragment;
+import com.yumo.demo.config.Config;
 import com.yumo.demo.entry.YmPackageInfo;
 import com.yumo.demo.listener.IGetPackageData;
 import com.yumo.demo.utils.YmClassUtils;
@@ -25,12 +26,12 @@ import java.util.List;
 
 /**
  * Created by yumodev on 15/11/20.
+ * 显示包名目录
  */
 public class YmTestPackageFragment extends YmDemoBaseFragment {
-    private final String LOG_TAG = "YmTestPackageFragment";
-
     private RecyclerView mListView = null;
     private List<YmPackageInfo> mDataList = null;
+    private int mToolbarVisible = View.VISIBLE;
 
     @Override
     protected View getContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
                 String packageName = data.mPackageName;
                 Bundle bundle = new Bundle();
                 bundle.putString("packageName", packageName);
+                bundle.putInt(Config.ARGUMENT_TOOLBAR_VISIBLE, mToolbarVisible);
                 YmTestClassFragment classFragment = new YmTestClassFragment();
                 classFragment.setArguments(bundle);
 
@@ -79,10 +81,21 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
         return mListView;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            mToolbarVisible = bundle.getInt(Config.ARGUMENT_TOOLBAR_VISIBLE);
+            if (mToolbar != null){
+                mToolbar.setVisibility(mToolbarVisible);
+            }
+        }
+    }
+
     /**
      * yumodev
      * void
-     * 2014-11-6
      */
     private void initData(){
         String subClassName = YmClassUtils.getConfigPackageData(getContext(), IGetPackageData.class);

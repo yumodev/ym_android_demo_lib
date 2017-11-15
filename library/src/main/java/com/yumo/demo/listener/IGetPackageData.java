@@ -5,7 +5,7 @@ import com.yumo.demo.entry.YmPackageInfo;
 import java.util.List;
 
 /**
- * Created by yumo on 3/18/16.
+ * Created by yumodev on 3/18/16.
  */
 public interface IGetPackageData {
 

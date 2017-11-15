@@ -16,19 +16,23 @@ import android.widget.Toast;
 
 import com.yumo.demo.R;
 import com.yumo.demo.base.YmDemoBaseFragment;
+import com.yumo.demo.config.Config;
+import com.yumo.demo.listener.UpdateTitleObservable;
 
 
 public class YmTestFragment extends YmDemoBaseFragment {
     protected static final String TEST_TAG = "TestFragment";
     private YmTestView mTestView = null;
-
+    private int mToolbarVisible = View.VISIBLE;
     @Override
     protected View getContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         String tag = getTag();
         if (TextUtils.isEmpty(tag)){
             mToolbar.setTitle(TEST_TAG);
+            UpdateTitleObservable.getInstance().setTitle(TEST_TAG);
         }else{
             mToolbar.setTitle(tag);
+            UpdateTitleObservable.getInstance().setTitle(tag);
         }
 
         mToolbar.setNavigationIcon(R.drawable.head_back);
@@ -136,5 +140,18 @@ public class YmTestFragment extends YmDemoBaseFragment {
 
     public void printLog(String logTag, String info) {
         System.out.println(logTag + " " + info);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            mToolbarVisible = bundle.getInt(Config.ARGUMENT_TOOLBAR_VISIBLE);
+            if (mToolbar != null){
+                mToolbar.setVisibility(mToolbarVisible);
+            }
+        }
     }
 }
