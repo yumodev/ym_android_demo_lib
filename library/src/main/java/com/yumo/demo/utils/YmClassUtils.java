@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.Executors;
 
 import dalvik.system.DexFile;
 
@@ -200,19 +201,21 @@ public class YmClassUtils {
         try{
             Enumeration<String> apkClassNames = dexFile.entries();
             while (apkClassNames.hasMoreElements()) {
-                String className = apkClassNames.nextElement();
-                Log.d(LOG_TAG, className);
-                if (className.indexOf('$') >= 0 || !className.startsWith(parentPackageName)){
-                    continue;
-                }
+                try {
+                    String className = apkClassNames.nextElement();
+                    Log.d(LOG_TAG, className);
+                    if (className.indexOf('$') >= 0 || !className.startsWith(parentPackageName)){
+                        continue;
+                    }
 
-                final Class<?> cls = Class.forName(className);
-                if (isSuperClass(cls, superClassList)){
-                    dataList.add(cls);
+                    final Class<?> cls = Class.forName(className);
+                    if (isSuperClass(cls, superClassList)){
+                        dataList.add(cls);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
             }
-        }catch ( ClassNotFoundException e) {
-            e.printStackTrace();
         }finally {
             try {
                 dexFile.close();
