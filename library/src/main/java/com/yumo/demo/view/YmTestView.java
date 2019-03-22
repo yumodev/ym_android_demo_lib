@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.yumo.demo.R;
+import com.yumo.demo.anno.YmMethodTest;
 import com.yumo.demo.config.Config;
 import com.yumo.demo.entry.YmMethod;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -24,11 +25,10 @@ import java.util.List;
 
 /**
  * Created by yumodev on 17/2/15.
+ * 最终的View方法实现类
  */
-
 public class YmTestView extends FrameLayout {
     private Object mObj = null;
-    private Class<?> mCls = null;
     private List<YmMethod> mMethodList = new ArrayList<>();
     private RecyclerView mListView = null;
 
@@ -46,7 +46,6 @@ public class YmTestView extends FrameLayout {
 
     public void init(Object obj, Class<?> cls, View headerView, View footerView){
         mObj = obj;
-        mCls = cls;
 
         mMethodList = getMethodListData(cls);
 
@@ -56,9 +55,7 @@ public class YmTestView extends FrameLayout {
                 if (TextUtils.isEmpty(ymMethod.getDisplayName())) {
                     holder.setText(R.id.content, ymMethod.getMethod().getName());
                 } else {
-                    {
-                        holder.setText(R.id.content, ymMethod.getDisplayName());
-                    }
+                    holder.setText(R.id.content, ymMethod.getDisplayName());
                 }
             }
         };
@@ -106,6 +103,11 @@ public class YmTestView extends FrameLayout {
         init(obj, cls, null, null);
     }
 
+    /**
+     * 添加尾部View
+     * @param view
+     * @return
+     */
     public boolean addHeaderView(View view){
         if (mListView == null){
             return false;
@@ -119,6 +121,11 @@ public class YmTestView extends FrameLayout {
         return true;
     }
 
+    /**
+     * 添加脚步View
+     * @param view
+     * @return
+     */
     public boolean addFooterView(View view){
         if (mListView == null){
             return false;
@@ -132,18 +139,31 @@ public class YmTestView extends FrameLayout {
         return true;
     }
 
+    /**
+     * 一个类中公开的方法列表获取方法列表
+     * 方法的前缀为test。
+     * @param c
+     * @return
+     */
     private List<YmMethod> getMethodListData(Class<?> c){
         List<YmMethod> list = new ArrayList<>();
         Method[] m = c.getDeclaredMethods();
 
         for (int i = 0; i < m.length; i++) {
-            if (m[i].getName().indexOf(Config.TEST_METHOD_PREFIX) == 0) {
+            Method method = m[i];
+
+            if (method.getAnnotations() != null && method.isAnnotationPresent(YmMethodTest.class)){
+                YmMethodTest ymTest = method.getAnnotation(YmMethodTest.class);
                 YmMethod ymMethod = new YmMethod();
-                ymMethod.setMethod(m[i]);
+                ymMethod.setMethod(method);
+                ymMethod.setDisplayName(ymTest.name());
+                list.add(ymMethod);
+            }else if (method.getName().indexOf(Config.TEST_METHOD_PREFIX) == 0) {
+                YmMethod ymMethod = new YmMethod();
+                ymMethod.setMethod(method);
                 list.add(ymMethod);
             }
         }
-
         return list;
     }
 }

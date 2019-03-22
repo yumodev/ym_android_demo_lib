@@ -6,12 +6,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yumo.demo.anno.YmMethodTest;
 import com.yumo.demo.view.YmTestFragment;
 import com.yumo.ymtest.R;
 
 /**
  * Created by yumodev on 17/2/28.
- *
  * 测试HeaderView的使用。
  */
 
@@ -52,6 +52,7 @@ public class TestFragmentDemo extends YmTestFragment {
         }
     }
 
+    @YmMethodTest(name="加")
     public void testAdd(){
         int num1 = getFirstNum();
         int num2 = getSecondNum();
@@ -59,6 +60,7 @@ public class TestFragmentDemo extends YmTestFragment {
         mResultTextView.setText(String.valueOf(sum));
     }
 
+    @YmMethodTest(name = "减")
     public void testSubtract(){
         int num1 = getFirstNum();
         int num2 = getSecondNum();
@@ -66,6 +68,7 @@ public class TestFragmentDemo extends YmTestFragment {
         mResultTextView.setText(String.valueOf(sum));
     }
 
+    @YmMethodTest(name = "乘")
     public void testMultiplication(){
         int num1 = getFirstNum();
         int num2 = getSecondNum();
@@ -73,6 +76,7 @@ public class TestFragmentDemo extends YmTestFragment {
         mResultTextView.setText(String.valueOf(sum));
     }
 
+    @YmMethodTest(name = "除")
     public void testDivide(){
         int num1 = getFirstNum();
         int num2 = getSecondNum();

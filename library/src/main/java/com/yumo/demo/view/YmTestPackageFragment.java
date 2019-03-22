@@ -61,6 +61,7 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("packageName", packageName);
                 bundle.putInt(Config.ARGUMENT_TOOLBAR_VISIBLE, mToolbarVisible);
+
                 YmTestClassFragment classFragment = new YmTestClassFragment();
                 classFragment.setArguments(bundle);
 
@@ -94,6 +95,7 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
     }
 
     /**
+     * 初始化包名
      * yumodev
      * void
      */

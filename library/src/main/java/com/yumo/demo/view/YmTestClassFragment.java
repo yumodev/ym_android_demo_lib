@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.yumo.demo.R;
 import com.yumo.demo.base.YmDemoBaseFragment;
 import com.yumo.demo.config.Config;
+import com.yumo.demo.entry.YmClass;
 import com.yumo.demo.listener.UpdateTitleObservable;
 import com.yumo.demo.utils.YmClassUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -30,7 +31,7 @@ import java.util.List;
  */
 public class YmTestClassFragment extends YmDemoBaseFragment {
     private RecyclerView mListView = null;
-    private List<Class<?>> mDataList = null;
+    private List<YmClass> mDataList = null;
     private String mPackageName = "";
     private int mToolbarVisible = View.VISIBLE;
 
@@ -53,21 +54,21 @@ public class YmTestClassFragment extends YmDemoBaseFragment {
 
         initData();
 
-        CommonAdapter<Class<?>> adapter = new CommonAdapter<Class<?>>(getContext(), R.layout.linearlayout_text_item, mDataList) {
+        CommonAdapter<YmClass> adapter = new CommonAdapter<YmClass>(getContext(), R.layout.linearlayout_text_item, mDataList) {
             @Override
-            protected void convert(ViewHolder holder, final Class<?> cls, int position) {
-                holder.setText(R.id.content, cls.getSimpleName());
+            protected void convert(ViewHolder holder, final YmClass data, int position) {
+                holder.setText(R.id.content, data.getDisplayName());
             }
         };
 
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                Class<?> cls = mDataList.get(position);
-                if (Activity.class.isAssignableFrom(cls)){
-                    getActivity().startActivity(new Intent(getActivity(), cls));
+                YmClass cls = mDataList.get(position);
+                if (Activity.class.isAssignableFrom(cls.getCls())){
+                    getActivity().startActivity(new Intent(getActivity(), cls.getCls()));
                 }else{
-                    YmTestFragment fragment = (YmTestFragment) Fragment.instantiate(getContext(), cls.getName());
+                    YmTestFragment fragment = (YmTestFragment) Fragment.instantiate(getContext(), cls.getCls().getName());
                     Bundle bundle = new Bundle();
                     bundle.putInt(Config.ARGUMENT_TOOLBAR_VISIBLE, mToolbarVisible);
                     fragment.setArguments(bundle);
@@ -87,6 +88,10 @@ public class YmTestClassFragment extends YmDemoBaseFragment {
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
         mListView.setAdapter(adapter);
         return mListView;
+    }
+
+    private void getShowClassName(){
+
     }
 
     /**

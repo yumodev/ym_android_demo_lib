@@ -7,12 +7,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yumo.demo.anno.YmMethodTest;
 import com.yumo.ymtest.R;
 import com.yumo.ymtest.base.BaseDialogFragment;
 
 /**
  * Created by yumodev on 17/2/15.
- *
  * 提供YmTestView的测试使用方式
  */
 
@@ -67,6 +67,7 @@ public class TestViewDialog extends BaseDialogFragment {
         }
     }
 
+    @YmMethodTest(name="加")
     public void testAdd(){
         int num1 = getFirstNum();
         int num2 = getSecondNum();
@@ -74,6 +75,7 @@ public class TestViewDialog extends BaseDialogFragment {
         mResultTextView.setText(String.valueOf(sum));
     }
 
+    @YmMethodTest(name="减")
     public void testSubtract(){
         int num1 = getFirstNum();
         int num2 = getSecondNum();
@@ -81,6 +83,7 @@ public class TestViewDialog extends BaseDialogFragment {
         mResultTextView.setText(String.valueOf(sum));
     }
 
+    @YmMethodTest(name="乘")
     public void testMultiplication(){
         int num1 = getFirstNum();
         int num2 = getSecondNum();
@@ -88,6 +91,7 @@ public class TestViewDialog extends BaseDialogFragment {
         mResultTextView.setText(String.valueOf(sum));
     }
 
+    @YmMethodTest(name="除")
     public void testDivide(){
         int num1 = getFirstNum();
         int num2 = getSecondNum();

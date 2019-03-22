@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.yumo.demo.anno.YmMethodTest;
 import com.yumo.demo.config.Config;
 import com.yumo.demo.view.YmTestActivity;
 import com.yumo.demo.view.YmTestClassFragment;
@@ -36,6 +37,7 @@ public class MainActivity extends BaseActivity{
     /**
      * 分包名进行demo测试。
      */
+    @YmMethodTest(name = "打开所有的YmTestActivity")
     public void testAllTestFragmentInApp(){
         startActivity(new Intent(MainActivity.this, YmTestActivity.class));
     }
@@ -43,11 +45,13 @@ public class MainActivity extends BaseActivity{
     /**
      * 测试YmTestView类的使用
      */
+    @YmMethodTest(name = "测试YmTestView的使用")
     public void testYmTestView(){
         TestViewDialog fragment = new TestViewDialog();
         fragment.show(getSupportFragmentManager(), "test_view");
     }
 
+    @YmMethodTest(name = "打开包名")
     public void testPackageHomePage() {
         //        YmTestPackageFragment fragment = new YmTestPackageFragment();
         //        getSupportFragmentManager().beginTransaction().replace(R.id.test_fragment_id, fragment, "package").commit();

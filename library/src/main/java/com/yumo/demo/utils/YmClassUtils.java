@@ -8,7 +8,9 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.yumo.demo.anno.YmClassTest;
 import com.yumo.demo.config.Config;
+import com.yumo.demo.entry.YmClass;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
-import java.util.concurrent.Executors;
 
 import dalvik.system.DexFile;
 
@@ -123,6 +124,7 @@ public class YmClassUtils {
     }
 
     /**
+     * 获取一个子类
      * yumodev
      * void
      * 2014-11-6
@@ -134,7 +136,7 @@ public class YmClassUtils {
             return "";
         }
 
-        Log.d(LOG_TAG, apkName);
+        Log.i(LOG_TAG, apkName);
         DexFile dexFile;
         try {
             dexFile = new DexFile(apkName);
@@ -148,7 +150,7 @@ public class YmClassUtils {
             Enumeration<String> apkClassNames = dexFile.entries();
             while (apkClassNames.hasMoreElements()) {
                 String className = apkClassNames.nextElement();
-                Log.d(LOG_TAG, className);
+                Log.i(LOG_TAG, className);
                 if (className.indexOf('$') >= 0 || !className.startsWith(packageName)){
                     continue;
                 }
@@ -173,11 +175,12 @@ public class YmClassUtils {
     }
 
     /**
+     * 获取一个包下的子类
      * yumodev
      * void
      * 2014-11-6
      */
-    public static List<Class<?>> getAllSubClassInPackage(Context context, List<Class<?>> superClassList, String parentPackageName){
+    public static List<YmClass> getAllSubClassInPackage(Context context, List<Class<?>> superClassList, String parentPackageName){
         String packageName = context.getPackageName();
         String apkName = getApkName(context);
         if (TextUtils.isEmpty(apkName)){
@@ -188,7 +191,7 @@ public class YmClassUtils {
             parentPackageName = packageName;
         }
 
-        Log.d(LOG_TAG, apkName);
+        Log.i(LOG_TAG, apkName);
         DexFile dexFile;
         try {
             dexFile = new DexFile(apkName);
@@ -197,20 +200,23 @@ public class YmClassUtils {
             return null;
         }
 
-        List<Class<?>> dataList = new ArrayList<>();
+        List<YmClass> dataList = new ArrayList<>();
         try{
             Enumeration<String> apkClassNames = dexFile.entries();
             while (apkClassNames.hasMoreElements()) {
                 try {
                     String className = apkClassNames.nextElement();
-                    Log.d(LOG_TAG, className);
+                    Log.i(LOG_TAG, className);
                     if (className.indexOf('$') >= 0 || !className.startsWith(parentPackageName)){
                         continue;
                     }
 
                     final Class<?> cls = Class.forName(className);
-                    if (isSuperClass(cls, superClassList)){
-                        dataList.add(cls);
+                    if (!cls.isAnnotation() && cls.getAnnotations() != null && cls.isAnnotationPresent(YmClassTest.class)){
+                        YmClassTest classTest = cls.getAnnotation(YmClassTest.class);
+                        dataList.add(YmClass.createInstance(cls, classTest.name()));
+                    }else if (isSuperClass(cls, superClassList)){
+                        dataList.add(YmClass.createInstance(cls, ""));
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -237,7 +243,6 @@ public class YmClassUtils {
                 break;
             }
         }
-
         return result;
     }
 

@@ -47,10 +47,18 @@ public class YmTestFragment extends YmDemoBaseFragment {
         return mTestView;
     }
 
+    /**
+     * 获取头部View
+     * @return
+     */
     protected View getHeaderView(){
         return null;
     }
 
+    /**
+     * 获取尾部View
+     * @return
+     */
     protected View getFooterView(){
         return null;
     }

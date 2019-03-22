@@ -2,26 +2,22 @@ package com.yumo.ymtest.sys;
 
 import android.app.ActivityManager;
 import android.content.Context;
-import android.os.Environment;
-import android.os.StatFs;
-import android.util.Log;
 
+import com.yumo.demo.anno.YmClassTest;
+import com.yumo.demo.anno.YmMethodTest;
 import com.yumo.demo.view.YmTestFragment;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
 /**
  * Created by YmMoDev on 17/2/12.
  */
 
+@YmClassTest(name = "测试安卓系统信息")
 public class TestSystem extends YmTestFragment{
 
     private final String LOG_TAG = "TestSystem";
 
 
+    @YmMethodTest(name = "显示可用内存")
     public void testAvailMemory(){
         showToastMessage(formatByte(getAvailMemory(getContext())));
     }
