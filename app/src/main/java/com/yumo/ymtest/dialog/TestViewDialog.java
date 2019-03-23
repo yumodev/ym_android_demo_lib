@@ -1,4 +1,4 @@
-package com.yumo.ymtest.test;
+package com.yumo.ymtest.dialog;
 
 import android.app.Dialog;
 import android.text.TextUtils;

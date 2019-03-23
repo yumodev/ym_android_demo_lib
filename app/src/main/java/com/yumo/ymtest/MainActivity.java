@@ -1,19 +1,14 @@
 package com.yumo.ymtest;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.yumo.demo.anno.YmMethodTest;
-import com.yumo.demo.config.Config;
-import com.yumo.demo.view.YmTestActivity;
-import com.yumo.demo.view.YmTestClassFragment;
+import com.yumo.demo.utils.YmUIDemoManager;
 import com.yumo.demo.view.YmTestView;
 import com.yumo.ymtest.base.BaseActivity;
-import com.yumo.ymtest.test.TestViewDialog;
+import com.yumo.ymtest.dialog.TestViewDialog;
 
 public class MainActivity extends BaseActivity{
 
@@ -38,31 +33,26 @@ public class MainActivity extends BaseActivity{
      * 分包名进行demo测试。
      */
     @YmMethodTest(name = "打开所有的YmTestActivity")
-    public void testAllTestFragmentInApp(){
-        startActivity(new Intent(MainActivity.this, YmTestActivity.class));
+    public void testYmActivity(){
+       YmUIDemoManager.getInstance().openTestActivity(getApplicationContext());
     }
 
     /**
      * 测试YmTestView类的使用
      */
     @YmMethodTest(name = "测试YmTestView的使用")
-    public void testYmTestView(){
+    public void openYmTestView(){
         TestViewDialog fragment = new TestViewDialog();
         fragment.show(getSupportFragmentManager(), "test_view");
     }
 
-    @YmMethodTest(name = "打开包名")
-    public void testPackageHomePage() {
-        //        YmTestPackageFragment fragment = new YmTestPackageFragment();
-        //        getSupportFragmentManager().beginTransaction().replace(R.id.test_fragment_id, fragment, "package").commit();
+    @YmMethodTest(name = "打开测试首页包名")
+    public void openPackageHomePage() {
+        YmUIDemoManager.getInstance().openUiTestPackagePage(this, R.id.test_view, "com.yumo.ymtest", false);
+    }
 
-        Bundle bundle = new Bundle();
-        bundle.putString("packageName", getPackageName());
-        bundle.putInt(Config.ARGUMENT_TOOLBAR_VISIBLE, View.GONE);
-        Fragment classFragment = new YmTestClassFragment();
-        classFragment.setArguments(bundle);
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.addToBackStack(null);
-        ft.replace(R.id.test_view, classFragment).commit();
+    @YmMethodTest(name = "打开全部测试类")
+    public void openAllTestPage() {
+        YmUIDemoManager.getInstance().openUiAllTestPage(this, R.id.test_view, "com.yumo.ymtest", false);
     }
 }

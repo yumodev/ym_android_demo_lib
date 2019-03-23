@@ -6,7 +6,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.yumo.demo.anno.YmClassTest;
 import com.yumo.demo.config.Config;
@@ -130,7 +129,7 @@ public class YmClassUtils {
      * 2014-11-6
      */
     public static String getConfigPackageData(Context context, Class<?> superClass){
-        String packageName = YmDemoUtil.getAppPackageName(context);
+        String packageName = YmUIDemoManager.getInstance().getAppPackageName(context);
         String apkName = getApkName(context);
         if (TextUtils.isEmpty(apkName)){
             return "";
@@ -151,7 +150,7 @@ public class YmClassUtils {
             while (apkClassNames.hasMoreElements()) {
                 String className = apkClassNames.nextElement();
                 Log.i(LOG_TAG, className);
-                if (className.indexOf('$') >= 0 || !className.startsWith(packageName)){
+                if (className.indexOf('$') >= 0){
                     continue;
                 }
 
