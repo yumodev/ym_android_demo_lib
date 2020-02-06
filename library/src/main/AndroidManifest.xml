@@ -2,9 +2,7 @@
     package="com.yumo.demo">
 
     <application
-        android:allowBackup="true"
-        android:label="@string/app_name"
-        android:supportsRtl="true">
+        android:label="@string/app_name">
 
         <activity
             android:name=".view.YmTestActivity"
