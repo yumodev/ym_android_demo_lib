@@ -87,8 +87,9 @@ public class YmUIDemoManager {
     public void openUiAllTestPage(FragmentActivity activity, int fragmentId, String packageName, boolean showToolbar) {
         Bundle bundle = new Bundle();
         bundle.putString("packageName", packageName);
+        bundle.putInt(YmTestDefine.KEY_FRAGMENT_ID, fragmentId);
         if (!showToolbar){
-            bundle.putInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE, View.GONE);
+            bundle.putInt(YmTestDefine.KEY_TOOLBAR_VISIBLE, View.GONE);
         }
 
         Fragment classFragment = new YmTestClassFragment();
@@ -101,8 +102,9 @@ public class YmUIDemoManager {
     public void openUiTestPackagePage(FragmentActivity activity, int fragmentId, String packageName, boolean showToolbar) {
         Bundle bundle = new Bundle();
         bundle.putString("packageName", packageName);
+        bundle.putInt(YmTestDefine.KEY_FRAGMENT_ID, fragmentId);
         if (!showToolbar){
-            bundle.putInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE, View.GONE);
+            bundle.putInt(YmTestDefine.KEY_TOOLBAR_VISIBLE, View.GONE);
         }
 
         Fragment classFragment = new YmTestPackageFragment();

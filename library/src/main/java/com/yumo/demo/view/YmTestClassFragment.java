@@ -32,6 +32,7 @@ import java.util.List;
 public class YmTestClassFragment extends YmDemoBaseFragment {
     private RecyclerView mListView = null;
     private List<YmClass> mDataList = null;
+    private int mFragmentId = R.id.test_fragment_id;
     private String mPackageName = "";
     private int mToolbarVisible = View.VISIBLE;
 
@@ -70,11 +71,12 @@ public class YmTestClassFragment extends YmDemoBaseFragment {
                 }else{
                     YmTestFragment fragment = (YmTestFragment) Fragment.instantiate(getContext(), cls.getCls().getName());
                     Bundle bundle = new Bundle();
-                    bundle.putInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE, mToolbarVisible);
+                    bundle.putInt(YmTestDefine.KEY_TOOLBAR_VISIBLE, mToolbarVisible);
+                    bundle.putInt(YmTestDefine.KEY_FRAGMENT_ID, mFragmentId);
                     fragment.setArguments(bundle);
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.addToBackStack(null);
-                    ft.replace(R.id.test_fragment_id, fragment).commit();
+                    ft.replace(mFragmentId, fragment).commit();
                 }
             }
 
@@ -115,9 +117,13 @@ public class YmTestClassFragment extends YmDemoBaseFragment {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null){
-            mToolbarVisible = bundle.getInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE);
+            mToolbarVisible = bundle.getInt(YmTestDefine.KEY_TOOLBAR_VISIBLE);
             if (mToolbar != null){
                 mToolbar.setVisibility(mToolbarVisible);
+            }
+
+            if (bundle.containsKey(YmTestDefine.KEY_FRAGMENT_ID)){
+                mFragmentId = bundle.getInt(YmTestDefine.KEY_FRAGMENT_ID);
             }
         }
     }

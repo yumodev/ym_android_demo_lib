@@ -9,7 +9,9 @@ public class YmTestDefine {
     /**
      * 传递给Fragment的参数，控制是否显示Toolbar
      */
-    public static final String ARGUMENT_TOOLBAR_VISIBLE = "toolbar_visible";
+    public static final String KEY_TOOLBAR_VISIBLE = "toolbar_visible";
+    public static final String KEY_FRAGMENT_ID = "fragment_id";
+
     public static String TEST_METHOD_PREFIX = "test";
 
     public static String LOG_TAG = "ymTestDemo";

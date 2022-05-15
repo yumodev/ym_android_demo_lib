@@ -71,19 +71,8 @@ public class YmTestView extends FrameLayout {
 
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                try {
-                    mMethodList.get(position-headerAndFooterWrapper.getHeadersCount()).getMethod().invoke(mObj, (Object[]) null);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                    try {
-                        throw new InvocationTargetException(e);
-                    } catch (InvocationTargetException invocationTargetException) {
-                        invocationTargetException.printStackTrace();
-                    }
-                }
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position){
+                invokeMethod(position);
             }
 
             @Override
@@ -171,5 +160,16 @@ public class YmTestView extends FrameLayout {
             }
         }
         return list;
+    }
+
+    private void invokeMethod(int position) {
+        try {
+            mMethodList.get(position-headerAndFooterWrapper.getHeadersCount()).getMethod().invoke(mObj, (Object[]) null);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getCause());
+        }
     }
 }

@@ -32,6 +32,7 @@ import java.util.List;
 public class YmTestPackageFragment extends YmDemoBaseFragment {
     private RecyclerView mListView = null;
     private List<YmPackageInfo> mDataList = null;
+    private int mFragmentId = R.id.test_fragment_id;
     private int mToolbarVisible = View.VISIBLE;
 
     @Override
@@ -61,14 +62,15 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
                 String packageName = data.mPackageName;
                 Bundle bundle = new Bundle();
                 bundle.putString("packageName", packageName);
-                bundle.putInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE, mToolbarVisible);
+                bundle.putInt(YmTestDefine.KEY_FRAGMENT_ID, mFragmentId);
+                bundle.putInt(YmTestDefine.KEY_TOOLBAR_VISIBLE, mToolbarVisible);
 
                 YmTestClassFragment classFragment = new YmTestClassFragment();
                 classFragment.setArguments(bundle);
 
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.addToBackStack(null);
-                ft.replace(R.id.test_fragment_id, classFragment).commit();
+                ft.replace(mFragmentId, classFragment).commit();
             }
 
             @Override
@@ -88,10 +90,17 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null){
-            mToolbarVisible = bundle.getInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE);
-            if (mToolbar != null){
-                mToolbar.setVisibility(mToolbarVisible);
+            if (bundle.containsKey(YmTestDefine.KEY_TOOLBAR_VISIBLE)){
+                mToolbarVisible = bundle.getInt(YmTestDefine.KEY_TOOLBAR_VISIBLE);
+                if (mToolbar != null){
+                    mToolbar.setVisibility(mToolbarVisible);
+                }
             }
+
+            if (bundle.containsKey(YmTestDefine.KEY_FRAGMENT_ID)){
+                mFragmentId = bundle.getInt(YmTestDefine.KEY_FRAGMENT_ID);
+            }
+
         }
     }
 

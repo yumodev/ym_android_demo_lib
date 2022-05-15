@@ -1,6 +1,5 @@
 package com.yumo.demo.view;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -26,6 +25,7 @@ import com.yumo.demo.listener.UpdateTitleObservable;
 public class YmTestFragment extends YmDemoBaseFragment {
     protected static final String TEST_TAG = YmTestDefine.LOG_TAG;
     private YmTestView mTestView = null;
+    private int mFragmentId = R.id.test_fragment_id;
     private int mToolbarVisible = View.VISIBLE;
 
 
@@ -48,7 +48,7 @@ public class YmTestFragment extends YmDemoBaseFragment {
             }
         });
         mTestView = new YmTestView(getContext());
-        mTestView.init(this, getClass(), null, null);
+        mTestView.init(this, getClass(), getHeaderView(), getFooterView());
         return mTestView;
     }
 
@@ -107,7 +107,7 @@ public class YmTestFragment extends YmDemoBaseFragment {
     public void showFragment(Fragment fragment) {
         FragmentTransaction ft = getActivity().getSupportFragmentManager()
                 .beginTransaction();
-        ft.replace(R.id.test_fragment_id, fragment).commit();
+        ft.replace(mFragmentId, fragment).commit();
     }
 
     /**
@@ -142,7 +142,7 @@ public class YmTestFragment extends YmDemoBaseFragment {
         FragmentTransaction ft = getActivity().getSupportFragmentManager()
                 .beginTransaction();
         ft.addToBackStack(null);
-        ft.replace(R.id.test_fragment_id, testCase).commit();
+        ft.replace(mFragmentId, testCase).commit();
     }
 
 
@@ -181,9 +181,13 @@ public class YmTestFragment extends YmDemoBaseFragment {
 
         Bundle bundle = getArguments();
         if (bundle != null){
-            mToolbarVisible = bundle.getInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE);
+            mToolbarVisible = bundle.getInt(YmTestDefine.KEY_TOOLBAR_VISIBLE);
             if (mToolbar != null){
                 mToolbar.setVisibility(mToolbarVisible);
+            }
+
+            if (bundle.containsKey(YmTestDefine.KEY_FRAGMENT_ID)){
+                mFragmentId = bundle.getInt(YmTestDefine.KEY_FRAGMENT_ID);
             }
         }
     }

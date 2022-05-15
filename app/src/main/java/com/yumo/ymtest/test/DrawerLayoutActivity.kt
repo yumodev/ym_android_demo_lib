@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.yumo.demo.config.YmTestDefine
 import com.yumo.demo.listener.UpdateTitleObservable
 import com.yumo.demo.view.YmTestPackageFragment
 import com.yumo.ymtest.R
@@ -97,7 +98,8 @@ class DrawerLayoutActivity : AppCompatActivity(), NavigationView.OnNavigationIte
     fun showTestPackageHomePage(){
         val fragment = YmTestPackageFragment()
         val bundle = Bundle()
-        bundle.putInt("toolbar_visible", View.GONE)
+        bundle.putInt(YmTestDefine.KEY_TOOLBAR_VISIBLE, View.GONE)
+        bundle.putInt(YmTestDefine.KEY_FRAGMENT_ID, R.id.test_fragment_id)
         fragment.arguments = bundle
         getSupportFragmentManager().beginTransaction().replace(R.id.test_fragment_id, fragment, "package").commit()
     }
