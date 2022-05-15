@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.yumo.demo.config.Config;
+import com.yumo.demo.config.YmTestDefine;
 import com.yumo.demo.view.YmTestActivity;
 import com.yumo.demo.view.YmTestClassFragment;
 import com.yumo.demo.view.YmTestPackageFragment;
@@ -54,7 +54,7 @@ public class YmUIDemoManager {
      * @param debug
      */
     public void setDebugLog(boolean debug){
-        Log.setIsDebug(debug);
+        YmTestLog.setIsDebug(debug);
     }
 
 
@@ -88,7 +88,7 @@ public class YmUIDemoManager {
         Bundle bundle = new Bundle();
         bundle.putString("packageName", packageName);
         if (!showToolbar){
-            bundle.putInt(Config.ARGUMENT_TOOLBAR_VISIBLE, View.GONE);
+            bundle.putInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE, View.GONE);
         }
 
         Fragment classFragment = new YmTestClassFragment();
@@ -102,7 +102,7 @@ public class YmUIDemoManager {
         Bundle bundle = new Bundle();
         bundle.putString("packageName", packageName);
         if (!showToolbar){
-            bundle.putInt(Config.ARGUMENT_TOOLBAR_VISIBLE, View.GONE);
+            bundle.putInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE, View.GONE);
         }
 
         Fragment classFragment = new YmTestPackageFragment();

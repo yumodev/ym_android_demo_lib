@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 
 import com.yumo.demo.R;
 import com.yumo.demo.anno.YmMethodTest;
-import com.yumo.demo.config.Config;
+import com.yumo.demo.config.YmTestDefine;
 import com.yumo.demo.entry.YmMethod;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
@@ -31,6 +31,7 @@ public class YmTestView extends FrameLayout {
     private Object mObj = null;
     private List<YmMethod> mMethodList = new ArrayList<>();
     private RecyclerView mListView = null;
+    private HeaderAndFooterWrapper headerAndFooterWrapper = null;
 
     public YmTestView(Context context) {
         super(context);
@@ -49,7 +50,7 @@ public class YmTestView extends FrameLayout {
 
         mMethodList = getMethodListData(cls);
 
-        final CommonAdapter<YmMethod> adapter = new CommonAdapter<YmMethod>(getContext(), R.layout.linearlayout_text_item, mMethodList) {
+        final CommonAdapter<YmMethod> adapter = new CommonAdapter<YmMethod>(getContext(), R.layout.ymtest_linear_text_item, mMethodList) {
             @Override
             protected void convert(ViewHolder holder, YmMethod ymMethod, int position) {
                 if (TextUtils.isEmpty(ymMethod.getDisplayName())) {
@@ -60,7 +61,7 @@ public class YmTestView extends FrameLayout {
             }
         };
 
-        final HeaderAndFooterWrapper headerAndFooterWrapper= new HeaderAndFooterWrapper<>(adapter);
+        headerAndFooterWrapper = new HeaderAndFooterWrapper<>(adapter);
         if (headerView != null){
             if (headerView.getLayoutParams() == null){
                 headerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -77,6 +78,11 @@ public class YmTestView extends FrameLayout {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
+                    try {
+                        throw new InvocationTargetException(e);
+                    } catch (InvocationTargetException invocationTargetException) {
+                        invocationTargetException.printStackTrace();
+                    }
                 }
             }
 
@@ -158,7 +164,7 @@ public class YmTestView extends FrameLayout {
                 ymMethod.setMethod(method);
                 ymMethod.setDisplayName(ymTest.name());
                 list.add(ymMethod);
-            }else if (method.getName().indexOf(Config.TEST_METHOD_PREFIX) == 0) {
+            }else if (method.getName().indexOf(YmTestDefine.TEST_METHOD_PREFIX) == 0) {
                 YmMethod ymMethod = new YmMethod();
                 ymMethod.setMethod(method);
                 list.add(ymMethod);

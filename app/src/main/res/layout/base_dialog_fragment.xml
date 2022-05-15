@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@color/common_app_page">
 
-    <include layout="@layout/title_layout"/>
+    <include layout="@layout/ymtest_title_layout"/>
 
     <FrameLayout
         android:id="@+id/container_view"

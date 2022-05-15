@@ -8,7 +8,7 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import com.yumo.demo.anno.YmClassTest;
-import com.yumo.demo.config.Config;
+import com.yumo.demo.config.YmTestDefine;
 import com.yumo.demo.entry.YmClass;
 
 import java.io.File;
@@ -101,7 +101,7 @@ public class YmClassUtils {
         Vector<Method> v = new Vector();
 
         for (int i = 0; i < m.length; i++) {
-            if (m[i].getName().indexOf(Config.TEST_METHOD_PREFIX) == 0) {
+            if (m[i].getName().indexOf(YmTestDefine.TEST_METHOD_PREFIX) == 0) {
                 v.add(m[i]);
             }
         }
@@ -135,7 +135,7 @@ public class YmClassUtils {
             return "";
         }
 
-        Log.i(LOG_TAG, apkName);
+        YmTestLog.i(LOG_TAG, apkName);
         DexFile dexFile;
         try {
             dexFile = new DexFile(apkName);
@@ -149,7 +149,7 @@ public class YmClassUtils {
             Enumeration<String> apkClassNames = dexFile.entries();
             while (apkClassNames.hasMoreElements()) {
                 String className = apkClassNames.nextElement();
-                Log.i(LOG_TAG, className);
+                YmTestLog.i(LOG_TAG, className);
                 if (className.indexOf('$') >= 0){
                     continue;
                 }
@@ -190,7 +190,7 @@ public class YmClassUtils {
             parentPackageName = packageName;
         }
 
-        Log.i(LOG_TAG, apkName);
+        YmTestLog.i(LOG_TAG, apkName);
         DexFile dexFile;
         try {
             dexFile = new DexFile(apkName);
@@ -205,7 +205,7 @@ public class YmClassUtils {
             while (apkClassNames.hasMoreElements()) {
                 try {
                     String className = apkClassNames.nextElement();
-                    Log.i(LOG_TAG, className);
+                    YmTestLog.i(LOG_TAG, className);
                     if (className.indexOf('$') >= 0 || !className.startsWith(parentPackageName)){
                         continue;
                     }

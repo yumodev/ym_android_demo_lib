@@ -2,6 +2,7 @@ package com.yumo.demo.entry;
 
 /**
  * Created by yumodev on 3/18/16.
+ * 包信息
  */
 public class YmPackageInfo {
     public String mTitle;

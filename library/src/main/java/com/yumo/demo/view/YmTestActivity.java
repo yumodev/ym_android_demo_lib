@@ -9,6 +9,7 @@ import com.yumo.demo.R;
 
 /**
  * Created by yumodev on 15/11/18.
+ * 测试Activity。
  */
 public class YmTestActivity extends AppCompatActivity {
 
@@ -16,7 +17,7 @@ public class YmTestActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.test_page);
+        setContentView(R.layout.ymtest_test_page);
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();

@@ -16,14 +16,19 @@ import android.widget.Toast;
 
 import com.yumo.demo.R;
 import com.yumo.demo.base.YmDemoBaseFragment;
-import com.yumo.demo.config.Config;
+import com.yumo.demo.config.YmTestDefine;
 import com.yumo.demo.listener.UpdateTitleObservable;
 
 
+/**
+ * 测试基础类
+ */
 public class YmTestFragment extends YmDemoBaseFragment {
-    protected static final String TEST_TAG = "TestFragment";
+    protected static final String TEST_TAG = YmTestDefine.LOG_TAG;
     private YmTestView mTestView = null;
     private int mToolbarVisible = View.VISIBLE;
+
+
     @Override
     protected View getContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         String tag = getTag();
@@ -43,7 +48,7 @@ public class YmTestFragment extends YmDemoBaseFragment {
             }
         });
         mTestView = new YmTestView(getContext());
-        mTestView.init(this, getClass(), getHeaderView(), getFooterView());
+        mTestView.init(this, getClass(), null, null);
         return mTestView;
     }
 
@@ -63,6 +68,11 @@ public class YmTestFragment extends YmDemoBaseFragment {
         return null;
     }
 
+    /**
+     * 添加头部View
+     * @param view
+     * @return
+     */
     public boolean addHeaderView(View view){
         if (mTestView == null){
             return false;
@@ -70,6 +80,11 @@ public class YmTestFragment extends YmDemoBaseFragment {
        return mTestView.addHeaderView(view);
     }
 
+    /**
+     * 添加尾部View
+     * @param view
+     * @return
+     */
     public boolean addFooterView(View view){
         if (mTestView == null){
             return false;
@@ -77,15 +92,47 @@ public class YmTestFragment extends YmDemoBaseFragment {
         return mTestView.addFooterView(view);
     }
 
-    public Context getContext() {
-        return getActivity();
-    }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         return false;
     }
 
+
+
+    /**
+     * 显示Fragment
+     * @param fragment
+     */
+    public void showFragment(Fragment fragment) {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager()
+                .beginTransaction();
+        ft.replace(R.id.test_fragment_id, fragment).commit();
+    }
+
+    /**
+     * 显示对话框Fragment
+     * @param fragment
+     * @param tag
+     */
+    public void showDialogFragment(DialogFragment fragment, String tag) {
+        fragment.show(getActivity().getSupportFragmentManager(), tag);
+    }
+
+    public void showTestView(int resid) {
+        View view = View.inflate(getActivity(), resid, null);
+        showTestView(view);
+    }
+
+    public void showTestView(View view) {
+        showTestView(view, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+    }
+
+    /**
+     * 新建一个TestFragment，然后显示View。
+     * @param view
+     * @param layoutParams
+     */
     public void showTestView(View view, FrameLayout.LayoutParams layoutParams) {
         TestCaseFragment testCase = new TestCaseFragment();
         FrameLayout frameLayout = new FrameLayout(getContext());
@@ -98,24 +145,6 @@ public class YmTestFragment extends YmDemoBaseFragment {
         ft.replace(R.id.test_fragment_id, testCase).commit();
     }
 
-    public void showFragment(Fragment fragment) {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager()
-                .beginTransaction();
-        ft.replace(R.id.test_fragment_id, fragment).commit();
-    }
-
-    public void showDialogFragment(DialogFragment fragment, String tag) {
-        fragment.show(getActivity().getSupportFragmentManager(), tag);
-    }
-
-    public void showTestView(View view) {
-        showTestView(view, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-    }
-
-    public void showTestView(int resid) {
-        View view = View.inflate(getActivity(), resid, null);
-        showTestView(view);
-    }
 
     public void showToastMessage(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
@@ -146,17 +175,13 @@ public class YmTestFragment extends YmDemoBaseFragment {
         }
     }
 
-    public void printLog(String logTag, String info) {
-        System.out.println(logTag + " " + info);
-    }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         Bundle bundle = getArguments();
         if (bundle != null){
-            mToolbarVisible = bundle.getInt(Config.ARGUMENT_TOOLBAR_VISIBLE);
+            mToolbarVisible = bundle.getInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE);
             if (mToolbar != null){
                 mToolbar.setVisibility(mToolbarVisible);
             }

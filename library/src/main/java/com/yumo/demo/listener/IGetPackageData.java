@@ -8,6 +8,5 @@ import java.util.List;
  * Created by yumodev on 3/18/16.
  */
 public interface IGetPackageData {
-
     List<YmPackageInfo> getPackageList();
 }

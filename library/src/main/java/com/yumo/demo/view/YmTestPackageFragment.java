@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.yumo.demo.R;
 import com.yumo.demo.base.YmDemoBaseFragment;
-import com.yumo.demo.config.Config;
+import com.yumo.demo.config.YmTestDefine;
 import com.yumo.demo.entry.YmPackageInfo;
 import com.yumo.demo.listener.IGetPackageData;
 import com.yumo.demo.utils.YmClassUtils;
@@ -22,6 +22,7 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,7 +47,7 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
 
         initData();
 
-        CommonAdapter<YmPackageInfo> adapter = new CommonAdapter<YmPackageInfo>(getContext(), R.layout.linearlayout_text_item, mDataList) {
+        CommonAdapter<YmPackageInfo> adapter = new CommonAdapter<YmPackageInfo>(getContext(), R.layout.ymtest_linear_text_item, mDataList) {
             @Override
             protected void convert(ViewHolder holder, YmPackageInfo testPackageInfo, int position) {
                 holder.setText(R.id.content, testPackageInfo.mTitle);
@@ -60,7 +61,7 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
                 String packageName = data.mPackageName;
                 Bundle bundle = new Bundle();
                 bundle.putString("packageName", packageName);
-                bundle.putInt(Config.ARGUMENT_TOOLBAR_VISIBLE, mToolbarVisible);
+                bundle.putInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE, mToolbarVisible);
 
                 YmTestClassFragment classFragment = new YmTestClassFragment();
                 classFragment.setArguments(bundle);
@@ -87,7 +88,7 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null){
-            mToolbarVisible = bundle.getInt(Config.ARGUMENT_TOOLBAR_VISIBLE);
+            mToolbarVisible = bundle.getInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE);
             if (mToolbar != null){
                 mToolbar.setVisibility(mToolbarVisible);
             }
@@ -95,13 +96,14 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
     }
 
     /**
-     * 初始化包名
+     * 初始化包列表
      * yumodev
      * void
      */
     private void initData(){
         String subClassName = YmClassUtils.getConfigPackageData(getContext(), IGetPackageData.class);
         if (TextUtils.isEmpty(subClassName)){
+            mDataList.add(new YmPackageInfo(getContext().getPackageName(),getContext().getPackageName()));
             return;
         }
 
@@ -119,6 +121,10 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+
+        if (mDataList == null){
+            mDataList = new ArrayList<>();
         }
     }
 }

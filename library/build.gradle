@@ -4,12 +4,12 @@ group='com.github.yumodev'
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
-
+    resourcePrefix "ymtest_"
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 111
-        versionName "1.1.1"
+        versionCode 112
+        versionName "1.1.2"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 

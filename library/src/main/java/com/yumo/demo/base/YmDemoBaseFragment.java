@@ -21,7 +21,7 @@ public abstract class YmDemoBaseFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.base_fragment, null);
+        LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.ymtest_base_fragment, null);
         mToolbar = rootView.findViewById(R.id.toolbar);
 
         View containerView = getContainerView(inflater, container, savedInstanceState);

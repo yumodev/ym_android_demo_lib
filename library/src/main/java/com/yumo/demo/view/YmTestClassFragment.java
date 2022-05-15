@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.yumo.demo.R;
 import com.yumo.demo.base.YmDemoBaseFragment;
-import com.yumo.demo.config.Config;
+import com.yumo.demo.config.YmTestDefine;
 import com.yumo.demo.entry.YmClass;
 import com.yumo.demo.listener.UpdateTitleObservable;
 import com.yumo.demo.utils.YmClassUtils;
@@ -54,7 +54,7 @@ public class YmTestClassFragment extends YmDemoBaseFragment {
 
         initData();
 
-        CommonAdapter<YmClass> adapter = new CommonAdapter<YmClass>(getContext(), R.layout.linearlayout_text_item, mDataList) {
+        CommonAdapter<YmClass> adapter = new CommonAdapter<YmClass>(getContext(), R.layout.ymtest_linear_text_item, mDataList) {
             @Override
             protected void convert(ViewHolder holder, final YmClass data, int position) {
                 holder.setText(R.id.content, data.getDisplayName());
@@ -70,7 +70,7 @@ public class YmTestClassFragment extends YmDemoBaseFragment {
                 }else{
                     YmTestFragment fragment = (YmTestFragment) Fragment.instantiate(getContext(), cls.getCls().getName());
                     Bundle bundle = new Bundle();
-                    bundle.putInt(Config.ARGUMENT_TOOLBAR_VISIBLE, mToolbarVisible);
+                    bundle.putInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE, mToolbarVisible);
                     fragment.setArguments(bundle);
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.addToBackStack(null);
@@ -105,6 +105,9 @@ public class YmTestClassFragment extends YmDemoBaseFragment {
         superClassList.add(Activity.class);
 
         mDataList = YmClassUtils.getAllSubClassInPackage(getContext(), superClassList, mPackageName);
+        if (mDataList == null){
+            mDataList = new ArrayList<>();
+        }
     }
 
     @Override
@@ -112,7 +115,7 @@ public class YmTestClassFragment extends YmDemoBaseFragment {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null){
-            mToolbarVisible = bundle.getInt(Config.ARGUMENT_TOOLBAR_VISIBLE);
+            mToolbarVisible = bundle.getInt(YmTestDefine.ARGUMENT_TOOLBAR_VISIBLE);
             if (mToolbar != null){
                 mToolbar.setVisibility(mToolbarVisible);
             }

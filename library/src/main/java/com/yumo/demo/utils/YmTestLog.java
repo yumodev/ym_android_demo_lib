@@ -1,9 +1,11 @@
 package com.yumo.demo.utils;
 
-public class Log {
-    private static boolean mIsDebug = true;
+import com.yumo.demo.BuildConfig;
 
-    private Log() {
+public class YmTestLog {
+    private static boolean mIsDebug = BuildConfig.DEBUG;
+
+    private YmTestLog() {
     }
 
 
@@ -88,7 +90,11 @@ public class Log {
         return mIsDebug;
     }
 
+    /**
+     * 设置调试模式。
+     * @param isDebug
+     */
     public static void setIsDebug(boolean isDebug) {
-        Log.mIsDebug = isDebug;
+        mIsDebug = isDebug;
     }
 }
