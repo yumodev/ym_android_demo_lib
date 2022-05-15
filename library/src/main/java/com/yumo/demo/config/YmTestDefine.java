@@ -11,7 +11,7 @@ public class YmTestDefine {
      */
     public static final String KEY_TOOLBAR_VISIBLE = "toolbar_visible";
     public static final String KEY_FRAGMENT_ID = "fragment_id";
-
+    public static final String KEY_STR_LIST = "str_list";
     public static String TEST_METHOD_PREFIX = "test";
 
     public static String LOG_TAG = "ymTestDemo";

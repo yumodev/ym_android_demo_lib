@@ -16,7 +16,11 @@ import android.widget.Toast;
 import com.yumo.demo.R;
 import com.yumo.demo.base.YmDemoBaseFragment;
 import com.yumo.demo.config.YmTestDefine;
+import com.yumo.demo.customui.YmTestListDialog;
 import com.yumo.demo.listener.UpdateTitleObservable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -190,5 +194,13 @@ public class YmTestFragment extends YmDemoBaseFragment {
                 mFragmentId = bundle.getInt(YmTestDefine.KEY_FRAGMENT_ID);
             }
         }
+    }
+
+    public void showArrayList(ArrayList<String> data){
+        YmTestListDialog dialog = new YmTestListDialog();
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList(YmTestDefine.KEY_STR_LIST, data);
+        dialog.setArguments(bundle);
+        dialog.show(getActivity().getSupportFragmentManager(), "listData");
     }
 }
