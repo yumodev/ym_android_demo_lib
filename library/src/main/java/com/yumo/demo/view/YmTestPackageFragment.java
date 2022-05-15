@@ -112,6 +112,7 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
     private void initData(){
         String subClassName = YmClassUtils.getConfigPackageData(getContext(), IGetPackageData.class);
         if (TextUtils.isEmpty(subClassName)){
+            mDataList = new ArrayList<>();
             mDataList.add(new YmPackageInfo(getContext().getPackageName(),getContext().getPackageName()));
             return;
         }

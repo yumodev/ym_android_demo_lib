@@ -154,14 +154,19 @@ public class YmClassUtils {
                     continue;
                 }
 
-                final Class<?> cls = Class.forName(className);
-                if(superClass.isAssignableFrom(cls)
-                        && ! className.equals(superClass.getName())) {
-                    subClassName = className;
-                  break;
+                try {
+                    final Class<?> cls = Class.forName(className);
+                    if(superClass.isAssignableFrom(cls)
+                            && ! className.equals(superClass.getName())) {
+                        subClassName = className;
+                        break;
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
+
             }
-        }catch ( ClassNotFoundException e) {
+        }catch (Exception e) {
             e.printStackTrace();
         }finally {
             try {
