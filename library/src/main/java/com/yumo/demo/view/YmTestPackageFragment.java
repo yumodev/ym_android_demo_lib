@@ -31,9 +31,17 @@ import java.util.List;
  */
 public class YmTestPackageFragment extends YmDemoBaseFragment {
     private RecyclerView mListView = null;
-    private List<YmPackageInfo> mDataList = null;
+    private List<YmPackageInfo> mDataList = new ArrayList<>();
     private int mFragmentId = R.id.test_fragment_id;
     private int mToolbarVisible = View.VISIBLE;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        initData();
+    }
 
     @Override
     protected View getContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,7 +54,9 @@ public class YmTestPackageFragment extends YmDemoBaseFragment {
             }
         });
 
-        initData();
+        if (mDataList == null || mDataList.size() == 0){
+            initData();
+        }
 
         CommonAdapter<YmPackageInfo> adapter = new CommonAdapter<YmPackageInfo>(getContext(), R.layout.ymtest_linear_text_item, mDataList) {
             @Override

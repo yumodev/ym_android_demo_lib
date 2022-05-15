@@ -154,6 +154,9 @@ public class YmClassUtils {
                     continue;
                 }
 
+                if (className.indexOf("androidx.") == 0){
+                    continue;
+                }
                 try {
                     final Class<?> cls = Class.forName(className);
                     if(superClass.isAssignableFrom(cls)
@@ -163,8 +166,9 @@ public class YmClassUtils {
                     }
                 }catch (Exception e){
                     e.printStackTrace();
+                }catch (Error e){
+                    e.printStackTrace();
                 }
-
             }
         }catch (Exception e) {
             e.printStackTrace();
