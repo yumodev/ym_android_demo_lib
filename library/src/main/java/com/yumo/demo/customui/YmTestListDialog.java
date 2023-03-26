@@ -53,7 +53,7 @@ public class YmTestListDialog extends DialogFragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+//        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         super.onActivityCreated(savedInstanceState);
         WindowManager.LayoutParams lp = getDialog().getWindow().getAttributes();
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
